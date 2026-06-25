@@ -1,0 +1,51 @@
+{
+  "emotion": [
+    "/cells-v2/individual/emotion-01.png",
+    "/cells-v2/individual/emotion-02.png",
+    "/cells-v2/individual/emotion-03.png",
+    "/cells-v2/individual/emotion-04.png",
+    "/cells-v2/individual/emotion-05.png"
+  ],
+  "reason": [
+    "/cells-v2/individual/reason-01.png",
+    "/cells-v2/individual/reason-02.png",
+    "/cells-v2/individual/reason-03.png",
+    "/cells-v2/individual/reason-04.png",
+    "/cells-v2/individual/reason-05.png"
+  ],
+  "love": [
+    "/cells-v2/individual/love-01.png",
+    "/cells-v2/individual/love-02.png",
+    "/cells-v2/individual/love-03.png",
+    "/cells-v2/individual/love-04.png",
+    "/cells-v2/individual/love-05.png"
+  ],
+  "pride": [
+    "/cells-v2/individual/pride-01.png",
+    "/cells-v2/individual/pride-02.png",
+    "/cells-v2/individual/pride-03.png",
+    "/cells-v2/individual/pride-04.png",
+    "/cells-v2/individual/pride-05.png"
+  ],
+  "rest": [
+    "/cells-v2/individual/rest-01.png",
+    "/cells-v2/individual/rest-02.png",
+    "/cells-v2/individual/rest-03.png",
+    "/cells-v2/individual/rest-04.png",
+    "/cells-v2/individual/rest-05.png"
+  ],
+  "anxiety": [
+    "/cells-v2/individual/anxiety-01.png",
+    "/cells-v2/individual/anxiety-02.png",
+    "/cells-v2/individual/anxiety-03.png",
+    "/cells-v2/individual/anxiety-04.png",
+    "/cells-v2/individual/anxiety-05.png"
+  ],
+  "impulse": [
+    "/cells-v2/individual/impulse-01.png",
+    "/cells-v2/individual/impulse-02.png",
+    "/cells-v2/individual/impulse-03.png",
+    "/cells-v2/individual/impulse-04.png",
+    "/cells-v2/individual/impulse-05.png"
+  ]
+}
