@@ -8,10 +8,15 @@ import { Intro } from './screens/Intro';
 import { Question } from './screens/Question';
 import { Reaction } from './screens/Reaction';
 import { Result } from './screens/Result';
+import { ShareCard, getCardCell } from './screens/ShareCard';
 
 export function App() {
   const [state, dispatch] = useReducer(quizReducer, undefined, initState);
   const total = QUESTIONS.length;
+
+  // 캡처 라우트: ?card=<cellId> 면 카드 1장만 풀화면 렌더 (본 플로우 영향 없음).
+  const cardCell = getCardCell();
+  if (cardCell) return <ShareCard cell={cardCell} />;
 
   return (
     <div className="app">

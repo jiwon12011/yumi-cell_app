@@ -5,6 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#FF6B9D" />
     <title>오늘의 세포 회의</title>
+
+    <!-- 폰트: 파싱 블로킹 제거 위해 CSS @import 대신 head link로 (동적 서브셋) -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.css"
+    />
+
+    <!-- LCP: 스플래시 히어로(감성세포) 프리로드 -->
+    <link rel="preload" as="image" href="/cells/emotion.webp" fetchpriority="high" />
   </head>
   <body>
     <div id="root"></div>

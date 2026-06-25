@@ -3,8 +3,8 @@ import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
 import { VitePWA } from 'vite-plugin-pwa';
 
-// PWA: 정적 데이터만 쓰므로 오프라인 동작 목표. 결과카드(/cards/*.png)는
-// 다음 단계에서 precache 분리 전략(perf 게이트 §9-3)으로 따로 다룬다.
+// PWA: 앱 셸 + 세포 이미지(webp)는 precache → 오프라인 동작.
+// 결과카드(/cards/*)는 precache에서 제외하고 런타임 캐시(StaleWhileRevalidate)로만 (perf §9-3).
 export default defineConfig({
   plugins: [
     react(),
@@ -18,6 +18,21 @@ export default defineConfig({
         background_color: '#FFF7FB',
         display: 'standalone',
         lang: 'ko',
+      },
+      workbox: {
+        // 앱 셸(js/css/html) + 세포 webp만 precache. cards/*는 제외.
+        globPatterns: ['**/*.{js,css,html}', 'cells/*.webp'],
+        globIgnores: ['cards/**'],
+        runtimeCaching: [
+          {
+            urlPattern: /\/cards\/.*\.(?:png|webp)$/,
+            handler: 'StaleWhileRevalidate',
+            options: {
+              cacheName: 'result-cards',
+              expiration: { maxEntries: 10, maxAgeSeconds: 60 * 60 * 24 * 30 },
+            },
+          },
+        ],
       },
     }),
   ],

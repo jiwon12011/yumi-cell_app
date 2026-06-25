@@ -223,7 +223,7 @@
 
 /* ===== Question ===== */
 .question {
-  gap: var(--sp-5);
+  gap: var(--sp-4);
 }
 .question__head {
   display: flex;
@@ -259,18 +259,22 @@
   box-shadow: var(--sh-1);
 }
 
-/* A/B 카드: 세로 중앙을 채운다 */
+/* A/B 카드: 남는 세로 공간을 카드가 나눠 채운다 (dead zone 제거) */
 .question__choices {
   flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  gap: var(--sp-3);
+  gap: var(--sp-4);
+  /* 지문과 너무 멀어지지 않게 위쪽 여백 제한 */
+  margin-top: var(--sp-2);
 }
 .qcard {
   position: relative;
   width: 100%;
-  height: clamp(112px, 15vh, 160px);
+  flex: 1 1 auto;
+  min-height: 116px;
+  max-height: 172px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -362,32 +366,12 @@
 .meeting {
   position: relative;
   gap: var(--sp-4);
+  /* 무대+말풍선+하단을 한 덩어리로 세로 중앙 정렬 → 단일 dead zone 제거 */
+  justify-content: center;
   cursor: pointer;
 }
 
-/* 무대 배경: 옅은 보케 + 바닥 그라데이션 (약한 blur, 글로우 2장과 별도 상한) */
-.meeting__bokeh {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(8px);
-  opacity: 0.13;
-  pointer-events: none;
-  z-index: -1;
-}
-.meeting__bokeh--a {
-  top: 40px;
-  left: 24px;
-  width: 70px;
-  height: 70px;
-  background: radial-gradient(circle, var(--cell-emotion), transparent 70%);
-}
-.meeting__bokeh--b {
-  top: 90px;
-  right: 28px;
-  width: 56px;
-  height: 56px;
-  background: radial-gradient(circle, var(--cell-reason), transparent 70%);
-}
+/* 무대 바닥 그라데이션 (정적, blur 없음). 보케 레이어는 perf상 제거됨. */
 .meeting__floor {
   position: absolute;
   left: 0;
@@ -416,7 +400,7 @@
   align-items: center;
   gap: var(--sp-2);
   transform-origin: bottom center;
-  will-change: transform, opacity;
+  /* will-change는 등장/전환 동안만 JS가 동적 부여 (상시 X) */
 }
 .actor__name {
   font-size: 0.6875rem;
@@ -432,8 +416,9 @@
 .actor.is-active {
   z-index: 2;
   transform: translateY(-6px) scale(1.1);
+  /* drop-shadow는 즉시 적용(transition 대상 아님 → compositing 부담↓) */
   filter: drop-shadow(0 8px 16px color-mix(in srgb, var(--cell-color) 40%, transparent));
-  transition: transform 0.22s var(--ease-tok), filter 0.22s ease;
+  transition: transform 0.22s var(--ease-tok);
 }
 .actor.is-active.is-bobbing {
   animation: cell-bob 0.34s ease-in-out 2.5;
@@ -472,11 +457,12 @@
 }
 
 .meeting__footer {
-  margin-top: auto;
+  /* 콘텐츠에 가깝게 (바닥에 핀 고정하지 않음 → 말풍선↔하단 빈공간 제거) */
+  margin-top: var(--sp-5);
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: var(--sp-2);
+  gap: var(--sp-3);
 }
 .meeting__next {
   align-self: stretch;
@@ -713,6 +699,99 @@
   font-size: 0.8125rem;
   font-weight: 700;
   color: var(--cell-rest);
+}
+
+/* ===== 공유 카드 (캡처 전용, 1080×1350 고정) ===== */
+.card-capture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1080px;
+  height: 1350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 96px 80px;
+  overflow: hidden;
+  /* 불투명 세포컬러 그라데이션 배경 (텍스트는 어두운색 → 대비 확보) */
+  background:
+    radial-gradient(circle at 50% 30%, color-mix(in srgb, var(--cell) 30%, #fff), transparent 60%),
+    linear-gradient(
+      160deg,
+      color-mix(in srgb, var(--cell) 20%, #fff),
+      color-mix(in srgb, var(--cell) 6%, #fff) 55%,
+      #ffffff
+    );
+}
+.card-capture__eyebrow {
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: color-mix(in srgb, var(--cell) 70%, #000);
+}
+.card-capture__char {
+  margin: 8px 0;
+  filter: drop-shadow(0 30px 60px color-mix(in srgb, var(--cell) 45%, transparent));
+}
+.card-capture__title {
+  font-size: 96px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: color-mix(in srgb, var(--cell) 72%, #000);
+  text-align: center;
+  line-height: 1.1;
+}
+.card-capture__quote {
+  font-size: 46px;
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.4;
+  max-width: 16em;
+}
+.card-capture__quote::before {
+  content: '“';
+}
+.card-capture__quote::after {
+  content: '”';
+}
+.card-capture__wordmark {
+  position: absolute;
+  bottom: 72px;
+  font-size: 36px;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  color: color-mix(in srgb, var(--cell) 60%, #000);
+}
+.card-capture__deco {
+  position: absolute;
+  color: color-mix(in srgb, var(--cell) 40%, #fff);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.card-capture__deco--1 {
+  top: 120px;
+  left: 110px;
+  font-size: 64px;
+  transform: rotate(-12deg);
+}
+.card-capture__deco--2 {
+  top: 200px;
+  right: 130px;
+  font-size: 48px;
+}
+.card-capture__deco--3 {
+  bottom: 280px;
+  right: 120px;
+  font-size: 52px;
+  transform: rotate(10deg);
+}
+.card-capture__deco--4 {
+  bottom: 340px;
+  left: 130px;
+  font-size: 40px;
 }
 
 .visually-hidden {

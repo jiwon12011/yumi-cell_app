@@ -1,5 +1,17 @@
-/* Pretendard (일단 CDN. 다음 단계에서 한글 서브셋 100KB↓로 교체 — perf §9-2) */
-@import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css');
+/* Pretendard 동적 서브셋은 index.html <head> link로 로드(파싱 블로킹 제거). */
+
+/* FOUT 시 레이아웃 시프트(CLS) 최소화용 폴백 메트릭.
+   웹폰트 로드 전 system 폰트를 Pretendard 메트릭에 근사 보정. (근사치, 추후 실측 보정) */
+@font-face {
+  font-family: 'Pretendard Fallback';
+  src: local('Apple SD Gothic Neo'), local('Malgun Gothic'), local('Noto Sans KR'),
+    local('Segoe UI'), local('Roboto');
+  font-display: swap;
+  size-adjust: 100%;
+  ascent-override: 92%;
+  descent-override: 24%;
+  line-gap-override: 0%;
+}
 
 /* 디자인 토큰 — 기획서 §5 / designer 확정. 단일 출처. */
 :root {
@@ -42,9 +54,9 @@
   --sp-8: 32px;
   --sp-10: 40px;
 
-  /* 타입 */
-  --font: 'Pretendard', -apple-system, BlinkMacSystemFont, 'Apple SD Gothic Neo',
-    'Malgun Gothic', system-ui, sans-serif;
+  /* 타입 — 로드 전엔 메트릭 보정된 'Pretendard Fallback'으로 swap */
+  --font: 'Pretendard Variable', 'Pretendard', 'Pretendard Fallback', -apple-system,
+    BlinkMacSystemFont, system-ui, sans-serif;
 
   /* 레이아웃 */
   --app-max: 480px;

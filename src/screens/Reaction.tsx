@@ -104,19 +104,21 @@ export function Reaction({ choice, isLast, onNext }: Props) {
 
   return (
     <section className={`screen meeting${instant ? ' is-instant' : ''}`} onClick={handleTap}>
-      <span className="meeting__bokeh meeting__bokeh--a" aria-hidden="true" />
-      <span className="meeting__bokeh meeting__bokeh--b" aria-hidden="true" />
       <span className="meeting__floor" aria-hidden="true" />
 
       {/* 무대: 발화자들이 차례로 등장 */}
       <div className="meeting__stage">
         {speakers.map((sp, i) => {
           const meta = CELL_BY_ID[sp.cell];
+          // 등장/active 전환 동안만 will-change (동시 1~2개). 끝나면 auto로 해제.
+          const hint = !instant && ((i < revealed && !finished.has(i)) || i === activeIndex);
           return (
             <div
               key={`${sp.cell}-${i}`}
               className={actorClass(i)}
-              style={{ '--cell-color': meta?.color } as CSSProperties}
+              style={
+                { '--cell-color': meta?.color, willChange: hint ? 'transform, opacity' : 'auto' } as CSSProperties
+              }
               onAnimationEnd={(e) => {
                 if (e.animationName === 'cell-enter') {
                   setFinished((prev) => new Set(prev).add(i));
