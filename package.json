@@ -1,15 +1,16 @@
 {
-  "name": "oneul-cell-meeting",
+  "name": "cell-mood-diary",
   "private": true,
   "version": "0.1.0",
   "type": "module",
-  "description": "오늘의 세포 회의 — 밸런스 심리테스트 (Vite + React + TS + PWA)",
+  "description": "세포 감정일기 — 하루 한 줄 세포 감정 기록 (Vite + React + TS + PWA)",
   "scripts": {
     "dev": "vite",
     "build": "tsc -b && vite build",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "optimize:images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {
     "react": "^19.2.7",
@@ -19,6 +20,7 @@
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.3",
+    "sharp": "^0.34.5",
     "typescript": "^6.0.3",
     "vite": "^8.1.0",
     "vite-plugin-pwa": "^1.3.0",
